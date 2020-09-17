@@ -24,7 +24,7 @@ func main() {
 
 	emoji := emojis[rand.Intn(len(emojis))]
 
-	cmd := exec.Command("gh", "pr", "review", "-c", "-b", emoji)
+	cmd := exec.Command("gh", "pr", "review", *pr, "-c", "-b", emoji)
 	buf := bytes.Buffer{}
 	cmd.Stderr = &buf
 	err := cmd.Run()
@@ -32,7 +32,7 @@ func main() {
 		log.Fatal(buf.String())
 	}
 
-	cmd = exec.Command("gh", "pr", "review", "-a")
+	cmd = exec.Command("gh", "pr", "review", *pr, "-a")
 	buf = bytes.Buffer{}
 	cmd.Stderr = &buf
 	err = cmd.Run()
