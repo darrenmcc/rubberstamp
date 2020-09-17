@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"flag"
-	"fmt"
 	"log"
 	"math/rand"
 	"os"
@@ -40,7 +39,7 @@ func main() {
 	if err != nil {
 		log.Fatal(buf.String())
 	}
-	fmt.Printf("PR %s approved with %s\n", *pr, emoji)
+	log.Printf("PR %s approved with %s", *pr, emoji)
 }
 
 var emojis = []string{
