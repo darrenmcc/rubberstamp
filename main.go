@@ -32,7 +32,7 @@ func main() {
 		log.Fatal(buf.String())
 	}
 
-	cmd = exec.Command("gh", "pr", "review", "-c", "-b", emoji)
+	cmd = exec.Command("gh", "pr", "review", "-a")
 	buf = bytes.Buffer{}
 	cmd.Stderr = &buf
 	err = cmd.Run()
