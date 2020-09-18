@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"flag"
 	"log"
 	"math/rand"
 	"os"
@@ -10,23 +9,20 @@ import (
 	"time"
 )
 
-var pr = flag.String("pr", "", "The PR number to approve")
-
 func init() {
 	log.SetFlags(0)
-	flag.Parse()
 	rand.Seed(time.Now().UnixNano())
 }
 
 func main() {
-	if *pr == "" {
-		flag.PrintDefaults()
-		os.Exit(1)
+	if len(os.Args) != 2 {
+		log.Fatal("PR number required")
 	}
 
+	pr := os.Args[1]
 	emoji := emojis[rand.Intn(len(emojis))]
 
-	cmd := exec.Command("gh", "pr", "review", *pr, "-c", "-b", emoji)
+	cmd := exec.Command("gh", "pr", "review", pr, "-c", "-b", emoji)
 	buf := bytes.Buffer{}
 	cmd.Stderr = &buf
 	err := cmd.Run()
@@ -34,14 +30,14 @@ func main() {
 		log.Fatal(buf.String())
 	}
 
-	cmd = exec.Command("gh", "pr", "review", *pr, "-a")
+	cmd = exec.Command("gh", "pr", "review", pr, "-a")
 	buf = bytes.Buffer{}
 	cmd.Stderr = &buf
 	err = cmd.Run()
 	if err != nil {
 		log.Fatal(buf.String())
 	}
-	log.Printf("PR %s approved with %s", *pr, emoji)
+	log.Printf("PR %s approved with %s", pr, emoji)
 }
 
 var emojis = []string{
