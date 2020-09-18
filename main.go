@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
+	"time"
 )
 
 var pr = flag.String("pr", "", "The PR number to approve")
@@ -14,6 +15,7 @@ var pr = flag.String("pr", "", "The PR number to approve")
 func init() {
 	log.SetFlags(0)
 	flag.Parse()
+	rand.Seed(time.Now().UnixNano())
 }
 
 func main() {
