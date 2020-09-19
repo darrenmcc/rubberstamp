@@ -23,7 +23,7 @@ func main() {
 	pr := os.Args[1]
 	_, err := strconv.Atoi(pr)
 	if err != nil {
-		log.Fatalf("invalid PR number %s: %s", pr, err)
+		log.Fatalf("invalid PR number %q: %s", pr, err)
 	}
 
 	emoji := emojis[rand.Intn(len(emojis))]
