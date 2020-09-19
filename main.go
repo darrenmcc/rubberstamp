@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
+	"strconv"
 	"time"
 )
 
@@ -20,6 +21,11 @@ func main() {
 	}
 
 	pr := os.Args[1]
+	_, err := strconv.Atoi(pr)
+	if err != nil {
+		log.Fatalf("invalid PR number %s: %s", pr, err)
+	}
+
 	emoji := emojis[rand.Intn(len(emojis))]
 
 	for _, cmd := range []*exec.Cmd{
