@@ -23,8 +23,8 @@ func main() {
 	emoji := emojis[rand.Intn(len(emojis))]
 
 	for _, cmd := range []*exec.Cmd{
-		exec.Command("gh", "pr", "review", pr, "-c", "-b", emoji),
-		exec.Command("gh", "pr", "review", pr, "-a"),
+		exec.Command("gh", "pr", "review", pr, "--comment", "--body", emoji),
+		exec.Command("gh", "pr", "review", pr, "--approve"),
 	} {
 		var buf bytes.Buffer
 		cmd.Stderr = &buf
