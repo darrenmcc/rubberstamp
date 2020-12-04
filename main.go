@@ -15,15 +15,17 @@ func init() {
 }
 
 func main() {
-	if len(os.Args) != 2 {
-		log.Fatal("PR number required")
+	if len(os.Args) < 2 {
+		log.Fatal("PR number or URL required")
 	}
 
-	pr := os.Args[1]
-	emoji := emojis[rand.Intn(len(emojis))]
+	var (
+		pr    = os.Args[1]
+		emoji = emojis[rand.Intn(len(emojis))]
+		cmd   = exec.Command("gh", "pr", "review", pr, "--body", emoji, "--approve")
 
-	cmd := exec.Command("gh", "pr", "review", pr, "--body", emoji, "--approve")
-	var buf bytes.Buffer
+		buf bytes.Buffer
+	)
 	cmd.Stderr = &buf
 	err := cmd.Run()
 	if err != nil {
