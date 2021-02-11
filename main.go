@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -19,20 +20,23 @@ func main() {
 		log.Fatal("PR number or URL required")
 	}
 
-	var (
-		pr    = os.Args[1]
-		emoji = emojis[rand.Intn(len(emojis))]
-		cmd   = exec.Command("gh", "pr", "review", pr, "--body", emoji, "--approve")
+	pr := os.Args[1]
 
-		buf bytes.Buffer
-	)
+	body := emojis[rand.Intn(len(emojis))]
+	if len(os.Args) > 2 {
+		body += " " + strings.Join(os.Args[2:], " ")
+	}
+
+	cmd := exec.Command("gh", "pr", "review", pr, "--body", body, "--approve")
+
+	var buf bytes.Buffer
 	cmd.Stderr = &buf
 	err := cmd.Run()
 	if err != nil {
 		log.Fatal(buf.String())
 	}
 
-	log.Printf("PR %s approved with %s", pr, emoji)
+	log.Printf("PR %s approved with %q", pr, body)
 }
 
 var emojis = []string{
