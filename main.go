@@ -39,7 +39,7 @@ func main() {
 	}
 
 	if len(body) > 0 {
-		log.Printf("PR %s approved with '%s %s'", pr, emoji, body)
+		log.Printf("PR %s approved with '%s%s'", pr, emoji, body)
 	} else {
 		log.Printf("PR %s approved with %s", pr, emoji)
 	}
