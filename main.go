@@ -35,7 +35,10 @@ func main() {
 	cmd.Stderr = &buf
 	err := cmd.Run()
 	if err != nil {
-		log.Fatal(buf.String())
+		if s := buf.String(); s != "" {
+			log.Fatal(buf.String())
+		}
+		log.Fatal(err)
 	}
 
 	if len(body) > 0 {
