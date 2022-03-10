@@ -20,8 +20,6 @@ func main() {
 		log.Fatal("PR number or URL required")
 	}
 
-	pr := os.Args[1]
-
 	emoji := emojis[rand.Intn(len(emojis))]
 
 	var body string
@@ -30,8 +28,10 @@ func main() {
 	}
 
 	var buf bytes.Buffer
+	pr := os.Args[1]
 	cmd := exec.Command("gh", "pr", "review", pr, "--body", emoji+body, "--approve")
 	cmd.Stderr = &buf
+
 	err := cmd.Run()
 	if err != nil {
 		if s := buf.String(); s != "" {
