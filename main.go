@@ -22,28 +22,28 @@ func main() {
 
 	pr := os.Args[1]
 
-	body := emojis[rand.Intn(len(emojis))]
+	emoji := emojis[rand.Intn(len(emojis))]
 
+	var body string
 	if len(os.Args) > 2 {
-		body += " " + strings.Join(os.Args[2:], " ")
+		body = " " + strings.Join(os.Args[2:], " ")
 	}
 
-	cmd := exec.Command("gh", "pr", "review", pr, "--body", body, "--approve")
-
 	var buf bytes.Buffer
+	cmd := exec.Command("gh", "pr", "review", pr, "--body", emoji+body, "--approve")
 	cmd.Stderr = &buf
 	err := cmd.Run()
 	if err != nil {
 		if s := buf.String(); s != "" {
-			log.Fatal(buf.String())
+			log.Fatal(s)
 		}
 		log.Fatal(err)
 	}
 
-	if len(body) > 1 {
-		log.Printf("PR %s approved with %q", pr, body)
+	if len(body) > 0 {
+		log.Printf("PR %s approved with '%s%s'", pr, emoji, body)
 	} else {
-		log.Printf("PR %s approved with %s", pr, body)
+		log.Printf("PR %s approved with %s", pr, emoji)
 	}
 }
 
