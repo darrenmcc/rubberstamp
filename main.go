@@ -20,16 +20,16 @@ func main() {
 		log.Fatal("PR number or URL required")
 	}
 
-	emoji := emojis[rand.Intn(len(emojis))]
-
 	var body string
 	if len(os.Args) > 2 {
 		body = " " + strings.Join(os.Args[2:], " ")
+	} else {
+		body = emojis[rand.Intn(len(emojis))]
 	}
 
 	var buf bytes.Buffer
 	pr := os.Args[1]
-	cmd := exec.Command("gh", "pr", "review", pr, "--body", emoji+body, "--approve")
+	cmd := exec.Command("gh", "pr", "review", pr, "--body", body, "--approve")
 	cmd.Stderr = &buf
 
 	err := cmd.Run()
@@ -40,11 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if len(body) > 0 {
-		log.Printf("PR %s approved with '%s%s'", pr, emoji, body)
-	} else {
-		log.Printf("PR %s approved with %s", pr, emoji)
-	}
+	log.Printf("PR %s approved with %s", pr, body)
 }
 
 var emojis = []string{
