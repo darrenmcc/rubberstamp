@@ -42,5 +42,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	pr = strings.TrimPrefix(pr, "https://github.com/")
+	pr = strings.TrimSuffix(pr, "/")
+
 	log.Printf("PR %s approved with %s", pr, body)
 }
