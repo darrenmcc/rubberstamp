@@ -7,7 +7,7 @@ build: emojis_generated.go
 	go build
 
 install: emojis_generated.go
-	go install
+	go install -o stamp
 
 clean:
 	rm -f rubberstamp emojis_generated.go

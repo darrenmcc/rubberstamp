@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"log"
 	"math/rand"
+	"net/url"
 	"os"
 	"os/exec"
 	"strings"
@@ -42,8 +43,19 @@ func main() {
 		log.Fatal(err)
 	}
 
-	pr = strings.TrimPrefix(pr, "https://github.com/")
-	pr = strings.TrimSuffix(pr, "/")
+	log.Printf("PR %s approved with %s", extractPRPath(pr), body)
+}
 
-	log.Printf("PR %s approved with %s", pr, body)
+func extractPRPath(pr string) string {
+	u, err := url.Parse(pr)
+	if err != nil {
+		return pr
+	}
+
+	parts := strings.Split(strings.Trim(u.Path, "/"), "/")
+	if len(parts) < 4 || parts[2] != "pull" {
+		return pr
+	}
+
+	return strings.Join(parts[:4], "/")
 }
