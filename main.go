@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Printf("PR %s approved with %s", extractPRPath(pr), body)
+	log.Printf("%s approved with %s", extractPRPath(pr), body)
 }
 
 func extractPRPath(pr string) string {
